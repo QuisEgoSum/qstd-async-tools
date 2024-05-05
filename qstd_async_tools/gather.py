@@ -11,10 +11,9 @@ async def _wrapper(coroutine: typing.Coroutine, trace_ids: typing.List[str]):
         return await coroutine
 
 
-def gather(*coroutines: typing.Coroutine, loop=None, return_exceptions=False):
+def gather(*coroutines: typing.Coroutine, return_exceptions=False):
     trace_ids = get_trace_ids()
     return asyncio.gather(
         *[_wrapper(coroutine, trace_ids) for coroutine in coroutines],
-        loop=loop,
         return_exceptions=return_exceptions
     )

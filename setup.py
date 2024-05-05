@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='qstd_async_tools',
-    version='0.1.0',
+    version='0.1.1',
     author='QuisEgoSum',
     author_email='subbotin.evdokim@gmail.com',
     description='Async tools',

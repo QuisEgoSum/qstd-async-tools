@@ -8,7 +8,7 @@ async def gather_executor():
 
 
 async def main():
-    assert trace.get_trace_ids() is None
+    assert len(trace.get_trace_ids()) == 0
 
     trace.add_trace_id()
 
@@ -28,4 +28,4 @@ async def main():
 if __name__ == '__main__':
     asyncio.run(main())
 
-    assert len(trace.TASK_ADDRESS_TP_TRACE_IDS.keys()) == 0
+    assert len(trace.TASK_ADDRESS_TO_TRACE_IDS.keys()) == 0

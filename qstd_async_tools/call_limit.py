@@ -1,28 +1,25 @@
 import asyncio
 import functools
-import typing
 
 
 class CallQueue:
-    current = 0
-    maximum: int
-    next: typing.List[asyncio.Future]
-
     def __init__(self, maximum: int):
         self.maximum = maximum
-        self.next = []
+        self.current = 0
+        self.queue = asyncio.Queue()
 
     async def waiting(self):
-        if self.current == self.maximum:
+        if self.current >= self.maximum:
             future = asyncio.Future()
-            self.next.append(future)
+            await self.queue.put(future)
             await future
         else:
             self.current += 1
 
     def end(self):
-        if len(self.next) != 0:
-            self.next.pop(0).set_result(None)
+        if not self.queue.empty():
+            future = self.queue.get_nowait()
+            future.set_result(None)
         else:
             self.current -= 1
 
@@ -40,4 +37,3 @@ def call_limit(maximum: int):
                 q.end()
         return wrapper
     return decorator
-
